@@ -26,6 +26,19 @@ body {
 
 
 /* Classes */
+.gif-div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.gif-img {
+    max-width: 300px;
+}
+
+.gif-rating {
+    text-align: center;
+}
+
 .topic-btn {
     margin-top: 10px;
     margin-right: 5px;
