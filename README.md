@@ -1,1 +1,2 @@
 # GifTastic
+A webpage that is dynamically populated with gifs by using JavaScript, jQuery and the GIPHY API.  Several buttons are displayed, after clicking one, static gifs will be displayed on the page along with the gif's rating above.  When the gif is clicked, it will animate.  When it is clicked again, it will stop.
