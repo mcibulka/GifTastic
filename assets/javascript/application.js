@@ -10,16 +10,23 @@ $( document ).ready( function() {
     /* Variables */
     var topics = [ "dog", "panda", "confused", "the office", "smiling" ];
 
-    
-    for( var i = 0 ; i < topics.length ; i++ ){
-        var $b = $( "<button type='button' class='btn btn-info topic-btn'>" );
-        $b.attr( "data-topic", topics[i] );
-        $b.text( topics[i] );
-        $( "#btns-col" ).append( $b );
+
+    buildTopicsBar();
+
+    function buildTopicsBar () {
+        var $topicBtns = $( "#topic-btns");
+        $topicBtns.empty();
+
+        for( var i = 0 ; i < topics.length ; i++ ){
+            var $b = $( "<button type='button' class='btn btn-info topic-btn'>" );
+            $b.attr( "data-topic", topics[i] );
+            $b.text( topics[i] );
+            $topicBtns.append( $b );
+        }
     }
 
 
-    $( ".topic-btn" ).on( "click", function() {
+    $( "#topic-btns" ).on( "click", ".topic-btn", function() {
         var q = "q=";           // search query term / phrase
         var queryString = "?";
         var queryURL = "";
@@ -74,9 +81,16 @@ $( document ).ready( function() {
             $( this ).attr( "src", $( this ).attr( "data-fixed-h" ) );
             $( this ).attr( "data-gif-status", ANIMATED );
         }
-        else{
+        else{   // must be ANIMATED
             $( this ).attr( "src", $( this ).attr( "data-fixed-h-still" ) );
             $( this ).attr( "data-gif-status", STILL );
         }
+    });
+
+
+    $( "#add-btn" ).on( "click", function(event) {
+        event.preventDefault();
+        topics.push( $( "#add-topic" ).val().trim() );
+        buildTopicsBar();
     });
 });
