@@ -1,15 +1,16 @@
 $( document ).ready( function() {
-    var topics = [ "dog", "panda", "confused", "the office", "smiling" ];
-
+    /* Constants */
     var GIPHY_API_URL = "http://api.giphy.com/v1/gifs/search";
     var API_KEY = "api_key=pPsvHWkzBPkDPeTb5e0JIZdBoPBGEikZ";
     var LIMIT = "limit=10";
-    var queryString = "?";
+    var ANIMATED = "animated";
+    var STILL = "still";
+    
 
-    var q = "q=";       // search query term / phrase
-    var queryURL = "";
+    /* Variables */
+    var topics = [ "dog", "panda", "confused", "the office", "smiling" ];
 
-
+    
     for( var i = 0 ; i < topics.length ; i++ ){
         var $b = $( "<button type='button' class='btn btn-info topic-btn'>" );
         $b.attr( "data-topic", topics[i] );
@@ -19,6 +20,10 @@ $( document ).ready( function() {
 
 
     $( ".topic-btn" ).on( "click", function() {
+        var q = "q=";           // search query term / phrase
+        var queryString = "?";
+        var queryURL = "";
+
         q += $( this ).attr( "data-topic" );
 
         queryString += API_KEY;
@@ -26,6 +31,7 @@ $( document ).ready( function() {
         queryString += "&" + LIMIT;
 
         queryURL = GIPHY_API_URL + queryString;
+        console.log(queryURL);
 
         $.ajax({
             url: queryURL,
@@ -41,12 +47,36 @@ $( document ).ready( function() {
                 var $gifCol = $( "<div class='d-flex p-2 justify-content-center col'>");
                 var $gifDiv = $( "<div class='d-flex flex-column'>");
 
+                var stillURL = data[i].images.fixed_height_still.url;
+                var animatedURL = data[i].images.fixed_height.url;
+                var title = data[i].title;
+
                 $gifDiv.append( $( "<h5 class='gif-rating'>" ).text( "Rating: " + data[i].rating.toUpperCase() ) );
-                $gifDiv.append( $( "<img class='gif-img'>" ).attr( "src", data[i].images.fixed_height_still.url ) );
+                $gifDiv.append( $( "<img class='gif-img'>" ).attr({ 
+                    "src": stillURL,
+                    "alt": title,
+                    "data-fixed-h-still": stillURL,
+                    "data-fixed-h": animatedURL,
+                    "data-gif-status": STILL
+                }));
 
                 $gifCol.append( $gifDiv );
                 $( "#gifs-row").append( $gifCol ); 
             }
         });
+    });
+
+
+    $( "#gifs-row" ).on( "click", ".gif-img", function() {
+        var $gifStatus = $( this ).attr( "data-gif-status" );
+        
+        if( $gifStatus === STILL ){
+            $( this ).attr( "src", $( this ).attr( "data-fixed-h" ) );
+            $( this ).attr( "data-gif-status", ANIMATED );
+        }
+        else{
+            $( this ).attr( "src", $( this ).attr( "data-fixed-h-still" ) );
+            $( this ).attr( "data-gif-status", STILL );
+        }
     });
 });
