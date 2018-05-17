@@ -1,6 +1,6 @@
 $( document ).ready( function() {
     /* Constants */
-    var GIPHY_API_URL = "http://api.giphy.com/v1/gifs/search";
+    var GIPHY_API_URL = "https://api.giphy.com/v1/gifs/search";
     var API_KEY = "api_key=pPsvHWkzBPkDPeTb5e0JIZdBoPBGEikZ";
     var LIMIT = "limit=10";
     var ANIMATED = "animated";
